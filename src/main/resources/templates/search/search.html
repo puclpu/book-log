@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/search.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<div id="search_result">
+			<ul id="search_list">
+				
+			</ul>
+			<div style="text-align: center;">
+				<button id="search_more_btn" class="a_btn">검색 결과 더보기</button>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+		/* <![CDATA[ */
+		var keyword = /*[[${keyword}]]*/ null;
+		console.log(keyword);
+		
+		var page = 1;
+		var is_end = false;
+		
+		$(document).ready(function () {
+			searchBook();
+		});
+		
+		$('#search_more_btn').on('click', function() {
+			if (!is_end) {
+				page += 1;
+				searchBook();
+			}
+		});
+		
+		function searchBook() {
+			$.ajax({
+				url: "https://dapi.kakao.com/v3/search/book",
+				method: "GET",
+				data : {
+					"query" : keyword,
+					"page" : page
+				},
+				headers: {Authorization: "KakaoAK 03061fe59c00e5707535531e1be6e26f"},
+				success: function (data) {
+					console.log(data);
+					for(var i = 0; i < data.documents.length; i++) {
+						var info = '';
+						info += '<li><a href="/search/book?isbn='+ data.documents[i].isbn +'"';
+						info += '><div style="padding: 20px; display: block;">';
+						info += '<table> <tbody> <tr>';
+						info += '<td><div style="width: 120px; height: 174px;"><img src="' + data.documents[i].thumbnail + '"></div></td>';
+						info += '<td style="padding-left: 10px;"><span style="font-weight: bold;">' + data.documents[i].title + '</span>';
+						info += '<br> <span>';
+						var authors = data.documents[i].authors;
+						if (authors.length > 1) {
+							info += authors[0] + ', ' + authors[1];
+						} else {
+							info += authors[0];
+						}
+						info += ' | ' + data.documents[i].publisher + '</span></td>';
+						info += '</tr></tbody></table>';
+						info += '</div></a></li>';
+						
+						$("#search_list").append(info);
+						
+						is_end = data.meta.is_end;
+						if (is_end) {
+							$('#search_more_btn').hide();
+						}
+					}
+				}
+			});
+		}
+		
+	/* ]]> */
+	</script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

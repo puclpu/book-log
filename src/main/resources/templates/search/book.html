@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/book.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<div id="leftpage">
+			<div id="title-wrapper">
+				<span class="title"></span>
+			</div>
+		</div>
+		<div id="book-info">
+			<img src="">
+			<div id="book-detail" style="font-size: x-large;" class="paddingtop_50">
+				<ul>
+					<li><span class="title"></span></li>
+					<li><span id="authors"></span></li>
+					<li><span id="publisher"></span></li>
+					<li><span id="isbn"></span></li>
+				</ul>
+			</div>
+			<p id="contents" class="paddingtop_50"></p>
+		</div>
+		<div sec:authroize="isAuthenticated()" class="paddingtop_50">
+			<form th:action="@{/report/swrite}" method="get">
+			<input type="hidden" name="title">
+			<input type="hidden" name="author">
+			<input type="hidden" name="publisher">
+			<input type="hidden" name="thumbnail">
+			<input type="hidden" name="isbn">
+			<button class="a_btn" style="float: right;">기록하기</button>
+			</form>
+		</div>
+	</div>
+	<script th:inline="javascript">
+		/* <![CDATA[ */
+		var isbn = /*[[${isbn}]]*/null;
+		isbn = isbn.split(" ");
+
+		$(document).ready(function() {
+			searchBook();
+		});
+
+		function searchBook() {
+			$.ajax({
+				url : "https://dapi.kakao.com/v3/search/book?isbn=",
+				method : "GET",
+				data : {
+					query : isbn[0]
+				},
+				headers : {
+					Authorization : "KakaoAK 03061fe59c00e5707535531e1be6e26f"
+				},
+				success : function(data) {
+					console.log(data);
+					$('#book-info img')
+							.attr('src', data.documents[0].thumbnail);
+					$('.title').text(data.documents[0].title);
+					var authors = data.documents[0].authors;
+					var authorText = '';
+					for (var i = 0; i < authors.length; i++) {
+						authorText += authors[i];
+					}
+					$('#authors').text(authorText);
+					$('#publisher').text(data.documents[0].publisher);
+					$('#isbn').text(data.documents[0].isbn);
+					$('#contents').text(data.documents[0].contents);
+					
+					$('input[name=title]').val(data.documents[0].title);
+					$('input[name=thumbnail]').val(data.documents[0].thumbnail);
+					$('input[name=author]').val(authorText);
+					$('input[name=publisher]').val(data.documents[0].publisher);
+					$('input[name=isbn]').val(data.documents[0].isbn);
+				}
+			});
+		}
+		
+		/* ]]> */
+	</script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>
