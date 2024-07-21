@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<title>돟감</title>
+	<link rel="stylesheet" th:href="@{/css/user.css}">
+	<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class ="container">
+		<div id="login_form_div" class="padding400center">
+			<div th:if="${param.error}">
+				<span th:text="${exception}" class="smallpink">아이디와 비밀번호를 다시 입력해주세요</span>
+			</div>
+			<form th:action="@{/login_proc}" method="post">
+				<table>
+					<tr>
+						<td>아이디</td>
+						<td><input type="text" name="username" autocomplete="username"></td>
+					</tr>
+					<tr>
+						<td>비밀번호</td>
+						<td><input type="password" name="password" autocomplete="current-password"></td>
+					</tr>
+				</table>
+				<button type="submit" class="btn">로그인</button>
+			</form>
+		</div>
+		<div id="users_div" class="padding400center">
+			<a th:href="@{/find/find_id}"><span class="smallgray" >아이디 </span></a>
+			<a th:href="@{/find/find_password}"><span class="smallgray" >비밀번호 </span></a>
+			<span class="smallgray" >찾기</span>
+			<a th:href="@{/users}"><span class="smallgray" style="float: right;">회원 가입</span></a>
+		</div>
+	</div>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

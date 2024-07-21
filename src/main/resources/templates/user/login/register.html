@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<title>돟감</title>
+	<link rel="stylesheet" th:href="@{/css/user.css}">
+	<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class ="container">
+		<div id="register_form_div" class="padding400center">
+			<form th:action="@{/users}" method="post" onsubmit="return check()">
+				<input type="hidden" name="role" value="USER">
+				<ul>
+					<li>아이디</li>
+					<li><input onkeyup="id_check()" name="username" id="username"></li>
+					<li><span id="id_check_span" class="smallpink"></span></li>
+					<li>비밀번호</li>
+					<li><input onkeyup="pw_check()" type="password" name="password" id="password"></li>
+					<li><span id="password_rule_span" class="smallpink">8~16자 영문/숫자/특수문자 조합</span></li>
+					<li>비밀번호 확인</li>
+					<li><input onkeyup="pw_same()" type="password" id="password_check"></li>
+					<li><span id="password_same_span" class="smallpink"></span></li>
+					<li>닉네임</li>
+					<li><input onkeyup="nickname_check()" name="nickname" id="nickname"></li>
+					<li><span id="nickname_check_span" class="smallpink"></span></li>
+					<li>이메일</li>
+					<li><input name="email" id="email"></li>
+				</ul>
+				<button class="btn" type="submit">회원 가입</button>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var id_checked = 0;
+		var pw_checked = 0;
+		var nickname_checked = 0;
+	
+		/* id check */
+		function id_check() {
+			var username = document.getElementById("username").value;
+
+			if (username.trim() === "") { /* 입력값이 없으면 return */
+				document.getElementById("id_check_span").innerHTML="";
+				id_checked = 0;
+				return;
+			}
+			
+			$.ajax({
+				type : 'POST',
+				url : "/signup/idcheck",
+				data : {username : username},
+				success : function (response) {
+					if (response.data < 0) {
+						document.getElementById("id_check_span").innerHTML="사용 가능한 아이디입니다.";
+						id_checked = 1;
+					} else {
+						document.getElementById("id_check_span").innerHTML="이미 사용 중인 아이디입니다.";
+						id_checked = 0;
+					}
+				},
+				error : function(request, error) {
+					alert("fail");
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			})/* ajax */
+		}
+	
+		/* password check */	
+		function pw_check() {
+			var pw = document.getElementById("password").value;
+			
+			if (pw.length <8 || pw.length > 16) {
+				document.getElementById("password_rule_span").innerHTML="8~16자 영문/숫자/특수문자 조합만 가능합니다.";
+				pw_checked = 0;
+			} else {
+				document.getElementById("password_rule_span").innerHTML="";
+			}
+		}
+		
+		function pw_same() {
+			var pw = document.getElementById("password").value;
+			var pw2 = document.getElementById("password_check").value;
+		
+			if (pw != "" && pw2 != "") {
+				if (pw == pw2) {
+					document.getElementById("password_same_span").innerHTML="";
+					pw_checked = 1;
+				} else {
+					document.getElementById("password_same_span").innerHTML="비밀번호가 일치하지 않습니다.";
+					pw_checked = 0;
+				}
+			}
+		}
+		
+		/* nickname check */
+		function nickname_check() {
+			var nickname = document.getElementById("nickname").value;
+			
+			if (nickname.trim() === "") { /* 입력값이 없으면 return */
+				document.getElementById("nickname_check_span").innerHTML="";
+				nickname_checked = 0;
+				return;
+			}
+
+			if (nickname.length < 2) { /* 입력값이 없으면 return */
+				document.getElementById("nickname_check_span").innerHTML="2글자 이상의 닉네임을 입력하세요.";
+				nickname_checked = 0;
+				return;
+			}
+			
+			$.ajax({
+				type : 'POST',
+				url : "/signup/nicknamecheck",
+				data : {nickname : nickname},
+				success : function (response) {
+					if (response.data < 0) {
+						document.getElementById("nickname_check_span").innerHTML="사용 가능한 닉네임입니다.";
+						nickname_checked = 1;
+					} else {
+						document.getElementById("nickname_check_span").innerHTML="이미 사용 중인 닉네임입니다.";
+						nickname_checked = 0;
+					}
+				},
+				error : function(request, error) {
+					alert("fail");
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			})/* ajax */
+		}
+	
+		/* check before form submit */
+		function check() {
+		
+			if (id_checked == 0) {
+				alert("아이디를 입력해주세요.");
+				return false;
+			} else if (pw_checked == 0) {
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			} else if (nickname_checked == 0) {
+				alert("닉네임을 입력해주세요.");
+				return false;
+			} else if (email_checked == "") {
+				alert("이메일을 입력해주세요.");
+				return false;
+			} else {
+				return true;
+			}
+		}
+	</script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>
