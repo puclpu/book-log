@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<header class="header" th:fragment="header">
+	<!-- 세로 메뉴 -->
+	<div class="vertical-header">
+		<!-- Sidebar (hidden by default) -->
+		<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left"
+			style="display: none; z-index: 2; width: 40%; min-width: 300px"
+			id="mySidebar">
+			<a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item">-</a>
+			<div class="w3-bar-item" style="height: 30px; width: 100%;"></div>
+			<div class="w3-bar-item hover-container">
+				<span>검색하기</span>
+				<div class="search_div">
+					<input class="search_input"><a class="search_btn">검색</a>
+				</div>
+			</div>
+			<a th:href="@{/report/nwrite}" onclick="w3_close()" class="w3-bar-item">기록하기</a>
+			<a th:href="@{/bookshelf/1}" onclick="w3_close()" class="w3-bar-item">책장보기</a>
+			<div class="w3-bar-item" style="height: 30px; width: 100%;"></div>
+			<a th:href="@{/login}" sec:authorize="isAnonymous()" onclick="w3_close()" class="w3-bar-item">로그인</a>
+			<a th:href="@{/profile}" sec:authorize="isAuthenticated()" onclick="w3_close()" class="w3-bar-item">( <span sec:authentication="principal.nickname"></span> )</a>
+			<!-- <a th:href="@{/logout}" sec:authorize="isAuthenticated()" onclick="w3_close()" class="w3-bar-item">로그아웃</a> -->
+		</nav>
+
+		<!-- Top menu -->
+		<div class="w3-top header-menu">
+			<div style="max-width: 1200px; margin: auto">
+				<div id="category" class="w3-padding-16 w3-left h-paddingleft-16" onclick="w3_open()">+</div>
+				<div class="w3-right w3-padding-16" sec:authorize="isAnonymous()">
+					<a th:href="@{/login}">로그인</a>
+				</div>
+				<!-- <div class="w3-right w3-padding-16"
+					sec:authorize="isAuthenticated()">
+					<a th:href="@{/logout}">로그아웃</a>
+					<a th:href="@{/mypage}">( <span sec:authentication="principal.nickname"></span> )</a>
+				</div> -->
+				<div class="w3-center w3-padding-16">
+					<a th:href="@{/}"><span class="logo">(돟감)</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 가로 메뉴 -->
+	<div class="horizontal-header">
+		<div class="w3-top header-menu">
+			<div style="margin: auto">
+				<div class="w3-padding-16 w3-left h-paddingleft-16">
+					<a th:href="@{/}"><span class="logo">(돟감)</span></a>
+				</div>
+				<div class="w3-padding-16 h-left-200">
+					<ul>
+						<li><a th:href="@{/report/nwrite}">기록하기</a></li>
+						<li><a th:href="@{/bookshelf/1}">책장보기</a></li>
+					</ul>
+				</div>
+				<div class="w3-padding-16 search_div h-right-130">
+					<input class="search_input"><a class="search_btn">검색</a>
+				</div>
+				<div class="w3-padding-16 w3-right" sec:authorize="isAnonymous()">
+					<a th:href="@{/login}">로그인</a>
+				</div>
+				<div class="w3-padding-16 w3-right" sec:authorize="isAuthenticated()">
+					<a th:href="@{/profile}">( <span sec:authentication="principal.nickname"></span> )</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		// Script to open and close sidebar
+		function w3_open() {
+			document.getElementById("mySidebar").style.display = "block";
+		}
+
+		function w3_close() {
+			document.getElementById("mySidebar").style.display = "none";
+		}
+		
+		
+		// changing menu structure by screenWidth
+		window.addEventListener('resize', function() {
+			var screenWidth = window.innerWidth;
+			
+			if (screenWidth >= 768) {
+				document.querySelector('.horizontal-header').style.display = 'block';
+				document.querySelector('.vertical-header').style.display = 'none';
+			} else {
+				document.querySelector('.horizontal-header').style.display = 'none';
+				document.querySelector('.vertical-header').style.display = 'block';
+			}
+		});
+		
+		// 페이지 로드시 초기화
+		window.dispatchEvent(new Event('resize'));
+		
+		/* 영역(horizontal or vertical)에 따른 검색 event */
+		$(document).ready(function() {
+			$('.horizontal-header .search_input').on('keypress',function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					
+					performSearch('.horizontal-header');
+				}
+			});
+			$('.horizontal-header .search_btn').on('click', function (event) {
+				event.preventDefault();
+				
+				performSearch('.horizontal-header');
+			});
+			
+			$('.vertical-header .search_input').on('keypress',function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					
+					performSearch('.vertical-header');
+				}
+			});
+			
+			$('.vertical-header .search_btn').on('click', function (event) {
+				event.preventDefault();
+				
+				performSearch('.vertical-header');
+			});
+			
+			function performSearch(area) {
+				var keyword = $(area + ' .search_input').val();
+				
+				window.location.href = '/search?keyword='+encodeURIComponent(keyword);
+			}
+		});
+		/*]]>*/
+	</script>
+</header>
+<footer class="footer" th:fragment="footer">
+	<hr>
+	<div class="w3-center">
+    	<span>contact : dohhgam@gmail.com</span>
+	</div>
+</footer>
+</html>

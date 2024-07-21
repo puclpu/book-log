@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<title>돟감</title>
+	<link rel="stylesheet" th:href="@{/css/user.css}">
+	<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class ="container">
+		<span class="smallgray">아이디 찾기</span>
+		<div id="register_form_div" class="padding400center paddingtop100">
+			<form th:action="@{/find/find_id}" method="post">
+				<ul>
+					<li>닉네임</li>
+					<li><input name="nickname" id="nickname"></li>
+					<li>이메일</li>
+					<li><input name="email" id="email"></li>
+				</ul>
+				<div style="padding-top: 20px;">
+					<button type="submit" id="user_submit_btn">확인</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

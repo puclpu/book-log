@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<title>돟감</title>
+	<link rel="stylesheet" th:href="@{/css/user.css}">
+	<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class ="container">
+		<div id="user_profile" class="padding400center">
+			<table>
+				<tbody>
+					<tr>
+						<td>닉네임</td>
+						<td><span th:text="${keyword.nickname}"></span></td>
+					</tr>
+					<tr>
+						<td>이메일</td>
+						<td><span th:text="${keyword.email}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div> <!-- profile list -->
+		<div class="padding400center paddingtop100">
+			<span th:text="'위 정보로 가입된 아이디가 총 ' + ${count} + '개 있습니다.'"></span>
+			<ul class="find_list">
+				<li th:each="data : ${list}">
+					<span th:text="${#strings.substring(data.username, 0, 4)} + ${#strings.repeat('*', #strings.length(data.username) - 4)} + ' (' + ${data.joindate} + ')'"></span>
+<!-- 					<span th:text="${data.username} + ' (' + ${data.joindate} + ')'"></span> -->
+				</li>
+			</ul>
+		</div>
+		<div id="users_div" class="padding400center paddingtop100">
+			<a th:href="@{/login}"><span class="smallgray" >비밀번호 </span></a>
+			<a th:href="@{/find/find_password}"><span class="smallgray" >비밀번호 </span></a>
+			<span class="smallgray" >찾기</span>
+		</div>
+	</div>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

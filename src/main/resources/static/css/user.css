@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+.header-menu {
+	color: black;
+}
+
+a:hover {
+	color: gray;
+}
+
+.btn {
+	display: block;
+	width: 100%;
+	height: 40px;
+	background-color: white;
+	border: 1px solid black;
+	margin-top: 10px;
+}
+
+.container {
+	width: 100%;
+	min-height: 600px;
+	margin: 0 auto;
+	padding: 150px 20px;
+}
+
+#login_form_div table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#login_form_div tr {
+	border-bottom: 1px solid black;
+}
+
+#login_form_div input {
+	width: 100%;
+	height: 35px;
+	border-width: 0; /* input의 테두리 굵기를 0 */
+}
+
+#register_form_div input {
+	width: 100%;
+	height: 35px;
+	border-width: 0 0 1px;
+}
+
+input {
+	outline: none;
+}
+
+.smallgray {
+	color: gray;
+	font-size: small;
+}
+
+.smallpink {
+	font-size: small;
+	color: #FFA74F;
+}
+/* .smallpink {
+	color: pink;
+	font-size: small;
+} */
+
+.boldspan {
+	font-weight: bold;
+}
+
+.paddingtop100 {
+	padding-top: 100px;
+}
+
+#user_profile table {
+	width: 100%;
+}
+
+#user_profile td:nth-child(odd) {
+	text-align: left;
+}
+
+#user_profile td:nth-child(even) {
+	text-align: right;
+}
+
+#withdraw_btn {
+	border: 0;
+	background: transparent;
+	font-size: small;
+	padding: 0;
+}
+
+#user_submit_btn {
+	border: 1px solid black;
+	/*background: transparent; */
+	background: black;
+	color: white;
+	width: 120px;
+	height: 40px;
+	float: right;
+}
+
+#withdraw_form input {
+	width: 100%;
+	height: 35px;
+	border-width: 0 0 1px;
+}
+
+#notice_p {
+	border: 1px solid black;
+	padding: 20px;
+}
+
+.find_list li span {
+	font-size: small;
+}
+
+@media screen and (min-width: 768px) {
+	.padding400center {
+		display: block;
+		max-width: 400px;
+		margin: 0 auto;
+	}
+}
