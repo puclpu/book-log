@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/book.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<div id="write-info">
+			<!-- left page : book-info -->
+			<!-- <img th:src="${report.thumbnail}" th:if="${report.thumbnail}"> -->
+			<img th:if="${report.thumbnail.startsWith('http')}" th:src="${report.thumbnail}" class="thumbnail_img">
+			<img th:unless="${report.thumbnail.startsWith('http')}" th:src="'/img/'+${report.thumbnail}" class="thumbnail_img">
+			<div id="book-detail" class="paddingtop_50" style="font-size: large;">
+				<table>
+					<tbody>
+						<tr>
+							<td>제목</td>
+							<td><span th:text="${report.title}"></span></td>
+						</tr>
+						<tr>
+							<td>작가</td>
+							<td><span th:text="${report.author}"></span></td>
+						</tr>
+						<tr>
+							<td>출판사</td>
+							<td><span th:text="${report.publisher}"></span></td>
+						</tr>
+						<tr>
+							<td>ISBN</td>
+							<td><span th:text="${report.isbn}"></span></td>
+						</tr>
+						<tr>
+							<td class="paddingtop_50">분야</td>
+							<td class="paddingtop_50"><span th:text="${report.genre}"></span></td>
+						</tr>
+						<tr>
+							<td>쪽수</td>
+							<td><span th:text="${report.page}"></span></td>
+						</tr>
+						<tr>
+							<td>시작일</td>
+							<td><span th:text="${report.startdate}"></span></td>
+						</tr>
+						<tr>
+							<td>종료일</td>
+							<td><span th:text="${report.enddate}"></span></td>
+						</tr>
+						<tr>
+							<td>평점</td>
+							<td id="rating">
+								<div style="position: absolute; right: 0; bottom: 0; width: 104px; height: 100%;">
+									<span style="width: 104px; color: #e6e6e6;">★★★★★</span>
+									<span id="rating_star2">★★★★★</span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div id="rightpage" class="page-padding_50">
+			<!-- right page : custom report -->
+			<div id="editor">
+				<div th:utext="${report.content}"></div>
+			</div>
+			<div class="paddingtop_50" style="float: right;">
+				<!-- <button onclick="submitForm()" class="btn">저장하기</button> -->
+				<a th:href="@{/report/modify/{reportid}(reportid=${report.reportid})}">수정하기</a>
+				<button th:onclick="deleteReport([[${report.reportid}]])" style="padding-left: 20px; border: 0; background: transparent;">삭제하기</button>
+				<!-- <a th:href="@{/report/delete/{reportid}(reportid=${report.reportid})}">삭제하기</a> -->
+			</div>
+		</div>
+		<!-- right page -->
+	</div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		/* rating star */
+		var value = /*[[${report.grade}]]*/ [];
+		const rating_star = document.getElementById('rating_star2');
+		var width = (value / 10) * 100;
+		rating_star.style.width = width + '%';
+		
+		/* editor content transfer div to p */
+		var blocks = document.getElementsByClassName('block');
+		for(var i=0; i<blocks.length; i++) {
+			var content = blocks[i].innerHTML;
+			var newContent = '<p>'+content+'</p>';
+			blocks[i].outerHTML = newContent;
+		}
+		
+		/* delete btn click */
+		function deleteReport(rid) {
+			var isDelete = confirm("독후감을 삭제할까요?");
+			if (isDelete) {
+				location.href = '/report/delete/'+rid;
+			} else {
+				return;
+			}
+		}
+	</script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

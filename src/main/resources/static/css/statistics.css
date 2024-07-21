@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.header-menu {
+	color: black;
+}
+
+a:hover {
+	color: gray;
+}
+
+.container {
+	width: 100%;
+	min-height: 600px;
+	margin: 0 auto;
+	padding: 150px 20px;
+}
+
+hr {
+	border-top: 1px dashed black!important
+}
+
+.right_span {
+	float : right;
+}

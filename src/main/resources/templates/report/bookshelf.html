@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/bookshelf.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<div id="shelves" style="position: relative; padding-bottom: 20px;">
+			<a th:href="@{/calender}">📆달력</a>
+			<a th:href="@{/statistics}">🧾통계</a>
+		</div>
+		<ul id="report_list">
+		
+		</ul>
+		<div>
+			<ul id="page_list">
+			</ul>
+		</div>
+	</div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		var list = /*[[${list}]]*/ [];
+		var startPage = /*[[${startPage}]]*/ 0;
+		var endPage = /*[[${endPage}]]*/ 0;
+		var nowPage = /*[[${nowPage}]]*/ 0;
+	/*]]>*/
+	</script>
+	<script type="text/javascript" th:src="@{/js/bookshelf.js}"></script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

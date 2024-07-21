@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.container {
+	width: 100%;
+	min-height: 600px;
+	margin: 0 auto;
+	padding: 150px 20px;
+}
+
+a:hover {
+	color: gray;
+}
+
+#search_result a:hover {
+	color: black;
+}
+
+.a_btn {
+	border: none;
+	background: transparent;
+	font-size: small;
+}
+
+#search_list li:hover {
+	background-color: #FFA74F;;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/book.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+	<form th:action="@{/report/modify}" id="report_form" method="post" onsubmit="return check()">
+			<input type="hidden" name="reportid" th:value="${report.reportid}">
+			<div class="formWapper">
+				<div id="write-info"> <!-- left page : book-info -->
+					<img th:src="${report.thumbnail}">
+					<input name="thumbnail" th:value="${report.thumbnail}" type="hidden" class="thumbnail_img">
+					<div id="book-detail" class="paddingtop_50" style="font-size: large;">
+						<table>
+							<tbody>
+								<tr>
+									<td>제목</td>
+									<td><input name="title" th:value="${report.title}"></td>
+								</tr>
+								<tr>
+									<td>작가</td>
+									<td><input name="author" th:value="${report.author}"></td>
+								</tr>
+								<tr>
+									<td>출판사</td>
+									<td><input name="publisher" th:value="${report.publisher}"></td>
+								</tr>
+								<tr>
+									<td>ISBN</td>
+									<td><input name="isbn" th:value="${report.isbn}"></td>
+								</tr>
+								<tr>
+									<td class="paddingtop_50">분야</td>
+									<td class="paddingtop_50"><input name="genre" th:value="${report.genre}"></td>
+								</tr>
+								<tr>
+									<td>쪽수</td>
+									<td><input type="number" name="page" th:value="${report.page}"></td>
+								</tr>
+								<tr>
+									<td>시작일</td>
+									<td><input type="date" name="startdate" th:value="${report.startdate}"></td>
+								</tr>
+								<tr>
+									<td>종료일</td>
+									<td><input type="date" name="enddate" th:value="${report.enddate}"></td>
+								</tr>
+								<tr>
+									<td>평점</td>
+									<td id="rating">
+										<!-- ★★★★★
+										<span id="rating_star2">★★★★★</span>
+										<input id="rating_input" type="range" value="1" step="1" min="0" max="10"> -->
+										<div style="position: absolute; right: 0; bottom: 0; width: 104px; height: 100%;">
+											<span style=" width: 104px; color: #e6e6e6;">★★★★★</span>
+											<span id="rating_star2">★★★★★</span>
+											<input name="grade" id="rating_input" type="range" th:value="${report.grade}" step="1" min="0" max="10">
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="rightpage" class="page-padding_50"> <!-- right page : custom report -->
+					<div id="toolbar">
+						<button type="button" id="quote_btn" class="tool_btn">" "</button>
+						<button type="button" id="pic_btn" class="tool_btn">📷</button>
+						<button type="button" id="qna_btn" class="tool_btn">? !</button>
+						<!-- <button id="tree_btn" class="tool_btn">👶🏻</button> -->
+						<!-- <input type="file" id="pic_input" name="uploadFile" multiple style="display: none;"> -->
+						<div id="qna_list" style="display: none; padding: 10px;">
+							<ul>
+								<li><button type="button" class="a_btn ques_btn">이 책을 선택한 이유</button></li>
+								<li><button type="button" class="a_btn ques_btn">책의 주제</button></li>
+								<li><button type="button" class="a_btn ques_btn">책의 줄거리</button></li>
+								<li><button type="button" class="a_btn ques_btn">공감가는 인물</button></li>
+								<li><button type="button" class="a_btn ques_btn">작가가 하고자 하는 말과 나의 생각</button></li>
+								<li><button type="button" class="a_btn ques_btn">함께 떠오른 작품</button></li>
+								<li><button type="button" class="a_btn ques_btn">인상 깊은 부분</button></li>
+								<li><button type="button" class="a_btn ques_btn">이 책을 선물하고 싶은 사람</button></li>
+								<li><button type="button" class="a_btn ques_btn">공감하는 상황</button></li>
+								<li><button type="button" class="a_btn ques_btn">연관되는 사회 이슈</button></li>
+							</ul>
+						</div>
+						<hr>
+					</div> <!-- toolbar -->
+					<div id="editor" th:utext="${report.content}">
+					</div>
+					<div class="paddingtop_50"><button onclick="submitForm()" id="report_save_btn">저장하기</button></div>
+				</div> <!-- right page -->
+			</div> <!-- formWapper -->
+		</form>
+		<input type="file" id="pic_input" name="uploadFile" multiple style="display: none;">
+	</div>
+	<script th:inline="javascript">
+		/* rating star */
+		var value = rating_input.value;
+		var width = (value / 10) * 100;
+		document.getElementById('rating_star2').style.width = width + '%';
+	</script>
+	<script type="text/javascript" th:src="@{/js/book.js}"></script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>
