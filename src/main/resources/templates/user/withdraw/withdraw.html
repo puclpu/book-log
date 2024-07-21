@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/user.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<div class="padding400center">
+			<p id="notice_p">회원 탈퇴를 완료하면 작성하신 모든 독후감이 삭제되어 복구할 수 없습니다.
+			 회원을 탈퇴하시려면 비밀번호를 입력해주세요.</p>
+		</div>
+		<div id="register_form_div" class="padding400center paddingtop100">
+			<form th:action="@{/withdraw}" method="post">
+				<ul>
+					<li>아이디</li>
+					<li><input name="username" id="username"
+						th:value="${account.username}" readonly="readonly"></li>
+					<li>닉네임</li>
+					<li><input name="nickname" id="nickname"
+						th:value="${account.nickname}" readonly="readonly"></li>
+					<li>비밀번호</li>
+					<li><input type="password" name="password" id="password"></li>
+				</ul>
+				<div style="padding-top: 20px;">
+					<button type="submit" id="user_submit_btn">탈퇴하기</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>

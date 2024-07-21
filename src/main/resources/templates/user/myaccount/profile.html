@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<title>돟감</title>
+	<link rel="stylesheet" th:href="@{/css/user.css}">
+	<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class ="container">
+		<div id="user_profile" class="padding400center">
+			<table>
+				<tbody>
+					<tr>
+						<td>닉네임</td>
+						<td><span th:text="${account.username}"></span></td>
+					</tr>
+					<tr>
+						<td>아이디</td>
+						<td><span th:text="${account.nickname}"></span></td>
+					</tr>
+					<tr>
+						<td>이메일</td>
+						<td><span th:text="${account.email}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div> <!-- profile list -->
+		
+		<div id="user_btns" class="padding400center paddingtop100">
+			<a th:href="@{/profile/modify}"><button class="btn">내 정보 수정</button></a>
+			<a th:href="@{/logout}"><button class="btn">로그아웃</button></a>
+		</div>
+	</div>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>
