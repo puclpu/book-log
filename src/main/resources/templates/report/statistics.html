@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/statistics.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<div>
+			<span id="this_month"></span>
+		</div>
+		<hr>
+		<div id="book_list">
+		
+		</div> <!-- book list -->
+		<hr>
+		<div>
+			<span>권수</span> <span id="count" class="right_span"></span><br>
+			<span>쪽수</span> <span id="total" class="right_span"></span>
+		</div> <!-- count total -->
+		<hr>
+		<div id="user_info">
+			<span id="date"></span>
+		</div> <!-- date & user name -->
+	</div>
+	<script type="text/javascript" th:src="@{/js/statistics.js}"></script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>
