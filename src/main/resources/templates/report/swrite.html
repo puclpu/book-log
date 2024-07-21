@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1">
+<title>돟감</title>
+<link rel="stylesheet" th:href="@{/css/book.css}">
+<th:block th:replace="~{layouts/head::head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="layouts/body::header"></th:block>
+	<div class="container">
+		<form th:action="@{/report/write}" id="report_form" method="post" onsubmit="return check()">
+			<div class="formWapper">
+				<div id="write-info"> <!-- left page : book-info -->
+					<img th:src="${book.thumbnail}">
+					<input name="thumbnail" th:value="${book.thumbnail}" type="hidden" class="thumbnail_img">
+					<div id="book-detail" class="paddingtop_50" style="font-size: large;">
+						<table>
+							<tbody>
+								<tr>
+									<td>제목</td>
+									<td><input name="title" th:value="${book.title}" readonly="readonly"></td>
+								</tr>
+								<tr>
+									<td>작가</td>
+									<td><input name="author" th:value="${book.author}" readonly="readonly"></td>
+								</tr>
+								<tr>
+									<td>출판사</td>
+									<td><input name="publisher" th:value="${book.publisher}" readonly="readonly"></td>
+								</tr>
+								<tr>
+									<td>ISBN</td>
+									<td><input name="isbn" th:value="${book.isbn}" readonly="readonly"></td>
+								</tr>
+								<tr>
+									<td class="paddingtop_50">분야</td>
+									<td class="paddingtop_50"><input name="genre"></td>
+								</tr>
+								<tr>
+									<td>쪽수</td>
+									<td><input type="number" name="page"></td>
+								</tr>
+								<tr>
+									<td>시작일</td>
+									<td><input type="date" name="startdate"></td>
+								</tr>
+								<tr>
+									<td>종료일</td>
+									<td><input type="date" name="enddate"></td>
+								</tr>
+								<tr>
+									<td>평점</td>
+									<td id="rating">
+										<!-- ★★★★★
+										<span id="rating_star2">★★★★★</span>
+										<input id="rating_input" type="range" value="1" step="1" min="0" max="10"> -->
+										<div style="position: absolute; right: 0; bottom: 0; width: 104px; height: 100%;">
+											<span style=" width: 104px; color: #e6e6e6;">★★★★★</span>
+											<span id="rating_star2">★★★★★</span>
+											<input name="grade" id="rating_input" type="range" value="1" step="1" min="0" max="10">
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="rightpage" class="page-padding_50"> <!-- right page : custom report -->
+					<div id="toolbar">
+						<button type="button" id="quote_btn" class="tool_btn">" "</button>
+						<button type="button" id="pic_btn" class="tool_btn">📷</button>
+						<button type="button" id="qna_btn" class="tool_btn">? !</button>
+						<!-- <button id="tree_btn" class="tool_btn">👶🏻</button> -->
+						<!-- <input type="file" id="pic_input" name="uploadFile" multiple style="display: none;"> -->
+						<div id="qna_list" style="display: none; padding: 10px;">
+							<ul>
+								<li><button type="button" class="a_btn ques_btn">이 책을 선택한 이유</button></li>
+								<li><button type="button" class="a_btn ques_btn">책의 주제</button></li>
+								<li><button type="button" class="a_btn ques_btn">책의 줄거리</button></li>
+								<li><button type="button" class="a_btn ques_btn">공감가는 인물</button></li>
+								<li><button type="button" class="a_btn ques_btn">작가가 하고자 하는 말과 나의 생각</button></li>
+								<li><button type="button" class="a_btn ques_btn">함께 떠오른 작품</button></li>
+								<li><button type="button" class="a_btn ques_btn">인상 깊은 부분</button></li>
+								<li><button type="button" class="a_btn ques_btn">이 책을 선물하고 싶은 사람</button></li>
+								<li><button type="button" class="a_btn ques_btn">공감하는 상황</button></li>
+								<li><button type="button" class="a_btn ques_btn">연관되는 사회 이슈</button></li>
+							</ul>
+						</div>
+						<!-- <div id="makeTree_div" style="display: none; padding: 10px;">
+							<ul id="makeTree_list">
+								<li>
+									<div class="char_div">
+										<div class="char_info">
+											<input type="text" name="character1" placeholder="인물명" style="font-size: large;">
+											<input type="text" name="group" placeholder="조직|회사" style="font-size: small;">
+										</div> char_into div
+										<div class="char_relation">
+											<ul>
+												<li>
+													<input type="text" name="relationship" placeholder="관계">
+													<input type="text" name="character2" placeholder="인물명">
+												</li>
+											</ul>
+											<button> + </button>
+										</div> char_relation div
+									</div>
+								</li>
+							</ul>
+							<button> + </button>
+						</div> -->
+						<hr>
+					</div> <!-- toolbar -->
+					<div id="editor"></div>
+					<div class="paddingtop_50"><button onclick="submitForm()" id="report_save_btn">저장하기</button></div>
+				</div> <!-- right page -->
+			</div> <!-- formWapper -->
+		</form>
+		<input type="file" id="pic_input" name="uploadFile" multiple style="display: none;">
+	</div>
+	<script type="text/javascript" th:src="@{/js/book.js}"></script>
+	<th:block th:replace="layouts/body::footer"></th:block>
+</body>
+</html>
